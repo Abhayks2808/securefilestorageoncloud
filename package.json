@@ -10,11 +10,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "blowfish": "^1.0.1",
     "cloudinary": "^1.27.1",
+    "cryptify": "^4.1.2",
     "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
+    "cryptojs": "^2.5.3",
+    "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "file-encryptor": "^0.1.1",
     "multer": "^1.4.3",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "zlib": "^1.0.5"
   }
 }

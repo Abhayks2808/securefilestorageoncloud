@@ -3,10 +3,17 @@ const express=require("express");
 const mullter=require("multer");
 const ejs=require("ejs");
 const multer = require("multer");
-const fs=require("fs");
 const crypto=require("crypto");
 const path=require("path");
 const cloudinary=require("cloudinary");
+
+const fs=require("fs");
+
+var CryptoJS = require("crypto-js");
+const blowfish=require("blowfish");
+
+
+
 //set storage engine
 
 var storage = multer.diskStorage({
@@ -51,9 +58,15 @@ app.get("/",(req,res) =>{
 });
 app.post('/upload', upload.single('myfile'), async({file}, res, next) => {
   try{
-    const result=await cloudinary.v2.uploader.upload(file.path,{ resource_type: 'auto' });
-    const post_details={
-      file:result.public_id
+    console.log(file);
+     const data=fs.readFileSync("./text.txt").toString(); 
+     const key="chhkdf"
+     var ciphertext1 = CryptoJS.AES.encrypt(data, key).toString(); 
+     var ciphertext2=CryptoJS.SHA256(data);
+     const result=await cloudinary.v2.uploader.upload(file.path,{ resource_type: 'auto' });
+     const post_details={
+      file:result.public_id,
+      ciphertext:ciphertext1 + ciphertext2
     }
     res.status(200).json({post_details});
   }
@@ -62,7 +75,7 @@ app.post('/upload', upload.single('myfile'), async({file}, res, next) => {
   }
    })
 
-const port=3000;
+const port=3002;
 
 app.listen(port,() => {
     console.log(`server is started on port ${port}`)
